@@ -1,5 +1,5 @@
 import subprocess
-## bla bla
+## bla 
 ##proc = subprocess.Popen(['java', 'GetString', 'sljdf'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 ##out, err1 = proc.communicate()
 ##try:

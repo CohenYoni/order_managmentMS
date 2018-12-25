@@ -1,8 +1,7 @@
 import subprocess
+
 ##proc = subprocess.Popen(['java', 'GetString', 'sljdf'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 ##out, err1 = proc.communicate()
-
-
 ##try:
 ##    completed = subprocess.run(
 ##        ['java', 'GetString', 'Yoni Cohen'],

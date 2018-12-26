@@ -10,14 +10,16 @@ try:
     DBlocation = sys.argv[1]
     ordersTableName = 'orders'
     itemsOfOrdersTableName = 'itemsOfOrder'
+    productsTableName = 'products'
     if not os.path.isfile(DBlocation):
         raise Exception('Database does not exist (maybe you paseed wrong path as argument)')
     connectDB = sqlite3.connect(DBlocation)
     cursorDB = connectDB.cursor()
-    records = cursorDB.execute('select * from ' + ordersTableName + ';')
+    records = cursorDB.execute('SELECT * FROM {0};'.format(ordersTableName))
     orders = records.fetchall()
-    records = cursorDB.execute('select * from ' + itemsOfOrdersTableName + ';')
+    records = cursorDB.execute('SELECT i.ordID, p.prodName FROM {0} as p, {1} as i WHERE p.prodID=i.productID;'.format(productsTableName, itemsOfOrdersTableName))
     itemsOfOrders = records.fetchall()
+    
     outputJson['output'] = [
                             {
                                 'ordID':ordID,

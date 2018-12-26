@@ -13,8 +13,8 @@ try:
         raise Exception('Database does not exist (maybe you paseed wrong path as argument)')
     connectDB = sqlite3.connect(DBlocation)
     cursorDB = connectDB.cursor()
-    records = cursorDB.execute('select * from ' + tableName + ';')
-    outputJson['output'] = [{'prodName':prodName, 'price':output} for (prodName, output) in records.fetchall()]
+    records = cursorDB.execute('SELECT * FROM {0};'.format(tableName))
+    outputJson['output'] = [{'prodID':prodID, 'prodName':prodName, 'price':output} for (prodName, output, prodID) in records.fetchall()]
     connectDB.close()
 except Exception as err:
     outputJson['hadError'] = True

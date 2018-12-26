@@ -1,24 +1,22 @@
 import sys
 import json
-if len(sys.argv) == 2:
-        try:
-                string=sys.argv[1].replace("\'", "\"")
+import subprocess
 
-                print(string)
-                order = json.loads(string)
-                print(order)
-
-        except ValueError:
-                print ("That was invalid argument.  Try again...")
-                exit(1)
-        names=order["name"]
-        print(names)
-        for n in names:
-                print(n)
-                #price = usingMicroService(n)
-                #totalPrice = totalPrice + int(price)
-        #print(totalPrice)
-        #exit(0)
-        else:
-                print('Error Argument')
-                sys.exit(1)
+outputJson = {'hadError':False, 'error':'', 'output':[]}
+totalPrice = 0
+try:
+    if len(sys.argv) != 2:
+        raise Exception('You need to pass only one argument')
+    inputJson = json.loads(sys.argv[1].replace('\'', '"')
+                productsIDs=inputJson["productsIDs"]
+                for p in productsIDs:
+                        print(p)
+                        price = subprocess.check_output(['python', 'getPriceOfProdFromDB.py', str(p)], shell=True)
+                        totalPrice = totalPrice + int(price)
+        print(totalPrice)
+        outputJson['output'] = {'totalPrice':totalPrice}
+except Exception as err:
+    outputJson['hadError'] = True
+    outputJson['error'] = 'ERROR: ' + str(err) + '.'
+finally:
+    print(json.dumps(outputJson))

@@ -3,7 +3,7 @@ import sqlite3
 import os
 import json
 
-outputJson = {'hadError':False, 'error':'', 'output':[]}
+outputJson = {'hadError':False, 'error':'', 'output':{}}
 try:
     if len(sys.argv) != 2:
         raise Exception('You need to pass only one argument')

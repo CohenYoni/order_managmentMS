@@ -1,1 +1,1 @@
-https://gitlab.com/jonbir3/order_managmentMS
+https://gitlab.com/jonbir3/order_managmentMS.git

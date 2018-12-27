@@ -8,7 +8,7 @@ totalPrice = 0
 try:
     if len(sys.argv) != 2:
         raise Exception('You need to pass only one argument')
-    inputJson = json.loads(sys.argv[1].replace('\'', '"')
+    inputJson = json.loads(sys.argv[1].replace('\'', '"'))
     inputJson = inputJson['order']
     print(inputJson)                       
     detailsJson['DBlocation']=inputJson['DBlocation']

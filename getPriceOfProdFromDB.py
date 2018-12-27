@@ -19,12 +19,11 @@ try:
     cursorDB = connectDB.cursor()
     records = cursorDB.execute('SELECT price FROM {0} WHERE prodID={1};'.format(tableName, prodID))
     price = records.fetchall()
-    print(price)
     if len(price) > 1:
         raise Exception('Must be a single price per product')
     elif len(price) == 0:
         raise Exception('There is no product with #ID ' + str(prodID))
-    outputJson['output'] = {'price':price[0]}
+    outputJson['output'] = {'price':price[0][0]}
     connectDB.close()
 except Exception as err:
     outputJson['hadError'] = True

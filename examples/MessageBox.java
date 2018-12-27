@@ -9,13 +9,13 @@ public class MessageBox {
 		ArrayList<String> strs = new ArrayList<String>();
 		for (int i = 0; i < 50; i++)
 			strs.add(Integer.toString(i));
-		String[] prodArr = strs.toArray(new String[strs.size()]);
-		JFrame frame = new JFrame("all products");
+		String[] strArr = strs.toArray(new String[strs.size()]);
+		JFrame frame = new JFrame("title");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JList<String> products = new JList<String>(prodArr);
-		JScrollPane scrollPane = new JScrollPane(products);
+		JList<String> jListStr = new JList<String>(strArr);
+		JScrollPane scrollPane = new JScrollPane(jListStr);
 		frame.add(scrollPane, BorderLayout.CENTER);
-	    frame.setSize(300, 150);
+	    frame.setSize(200, 200);
 	    frame.setVisible(true);
 	}
 }

@@ -15,19 +15,19 @@ public class ShowAllProductsInTable {
 			
 			//String test = "{ 'products' : [{ 'prodID' : 3, 'prodName' : 'table', 'price' : 50}, { 'prodID' : 2, 'prodName' : 'bag', 'price' : 100}]}";
 			JSONObject json = new JSONObject(args[0]);
+			JSONArray jsonArr = json.getJSONArray("products");
 			JTable table = new JTable();
-			DefaultTableModel data;
+			DefaultTableModel dataForTable;
 			JFrame frame = new JFrame();
 			JScrollPane scrollPane = new JScrollPane(table);
 			String[] columnNames = {"Productd ID", "Productd Name", "Price"};
-			data = new DefaultTableModel(columnNames,0);
-			table.setModel(data);
+			dataForTable = new DefaultTableModel(columnNames,0);
+			table.setModel(dataForTable);
 			
-			JSONArray jsonArr = json.getJSONArray("products");
 			for (int i = 0; i < jsonArr.length(); i++) {
 				JSONObject product = jsonArr.getJSONObject(i);
-				Object newData[] = {product.getInt("prodID"), product.getString("prodName"), product.getInt("price")};
-				data.addRow(newData);
+				Object productRecord[] = {product.getInt("prodID"), product.getString("prodName"), product.getInt("price")};
+				dataForTable.addRow(productRecord);
 				}
 			// Show all products in table.
 		    frame.add(scrollPane, BorderLayout.CENTER);

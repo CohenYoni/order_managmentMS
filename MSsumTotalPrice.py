@@ -8,28 +8,27 @@ totalPrice = 0
 try:
     if len(sys.argv) != 2:
         raise Exception('You need to pass only one argument')
-    inputJson = json.loads(sys.argv[1].replace('\'', '"'))
-    inputJson = inputJson['order']
-    print(inputJson)                       
-    detailsJson['DBlocation']=inputJson['DBlocation']
-    productsIDs=inputJson['productsIDs']
-                           
+    
+    inputJson = json.loads(sys.argv[1].replace('\'', '"').replace('\\', '\\\\'))
+    orderJson = inputJson['order']
+    detailsJson['DBlocation']=(inputJson['DBlocation'])
+    productsIDs=orderJson['productsIDs']
+    
     for p in productsIDs:
-        print(p)
-        detailsJson['productsIDs'] = p
-        outputFromGetPrice = subprocess.check_output(['python', 'getPriceOfProdFromDB.py', json.dumps(detailsJson)], shell=True)
-        if(outputFromGetPrice["hadError"]==true)
-            raise Exception(outputFromGetPrice["error"])
-        JsonFromGetPrice=outFromGetPrice["output"]
+        detailsJson['prodID'] = p
+        outputFromGetPrice = json.loads(subprocess.check_output(['python', 'getPriceOfProdFromDB.py', json.dumps(detailsJson)], shell=True))
+        
+        if(outputFromGetPrice['hadError']==True):
+            raise Exception(outputFromGetPrice['error'])
+        
+        JsonFromGetPrice=outputFromGetPrice['output']
         price=JsonFromGetPrice["price"]
-        totalPrice = totalPrice + int(price)
-        print(totalPrice)
+        totalPrice = totalPrice + float(price)
         outputJson['output'] = {'totalPrice':totalPrice}
+        
 except Exception as err:
     outputJson['hadError'] = True
-    outputJson['error'] = 'ERROR: ' + str(err) + '.'
+    outputJson['error'] = 'ERROR: '.replace('EROR: ', '') + str(err) + '.'
 finally:
     print(json.dumps(outputJson))
 
-
-"{'DBlocation' : 'C:\Users\dell xps 9560\Desktop\microservices','order' : {'ordID' : '1234','custName' : 'May','custPhone' : '050……..','ordDate' : '24/8/2018','productsIDs' : [1, 2, 3]}}"

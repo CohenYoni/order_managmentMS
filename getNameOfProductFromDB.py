@@ -19,9 +19,9 @@ try:
     cursorDB = connectDB.cursor()
     record = cursorDB.execute('SELECT prodName FROM {0} WHERE prodID={1};'.format(tableName, prodID))
     prodName = record.fetchall()
-    if prodName == []:
+    if len(prodName) == 0:
         raise Exception('There is no product with #ID ' + str(prodID))
-    outputJson['output'] = {'prodName':prodName}
+    outputJson['output'] = {'prodName':prodName[0][0]}
     connectDB.close()
 except Exception as err:
     outputJson['hadError'] = True

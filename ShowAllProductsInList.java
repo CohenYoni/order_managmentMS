@@ -1,4 +1,7 @@
-import javax.swing.JOptionPane;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,17 +15,28 @@ public class ShowAllProductsInList {
 			//String test = "{ 'products' : [{ 'prodID' : 3, 'prodName' : 'table', 'price' : 50}, { 'prodID' : 2, 'prodName' : 'bag', 'price' : 100}]}";
 			JSONObject json = new JSONObject(args[0]);
 			JSONArray jsonArr = json.getJSONArray("products");
-			String stringOfAllProducts = "";
+			JFrame frame = new JFrame("Products");
+			String allProducts = "";
+			allProducts+="<html>";
 			
+			// Insert products into string.
 			for (int i = 0; i < jsonArr.length(); i++) {
 				JSONObject product = jsonArr.getJSONObject(i);
-				stringOfAllProducts+=("Product ")+(Integer.toString(i+1))+"\n";
-				stringOfAllProducts+=("product id : ")+product.getInt("prodID")+"\n";
-				stringOfAllProducts+=("product name : ")+product.getString("prodName")+"\n";
-				stringOfAllProducts+=("price : ")+product.getInt("price")+"\n\n";
+				allProducts+=("--Product ")+(Integer.toString(i+1))+"--<br/>";
+				allProducts+=("product id : ")+product.getInt("prodID")+"<br/>";
+				allProducts+=("product name : ")+product.getString("prodName")+"<br/>";
+				allProducts+=("price : ")+product.getInt("price")+"<br/><br/>";
 				}
-			// Show all the products in list.
-			JOptionPane.showMessageDialog(null, stringOfAllProducts);
+			allProducts+="</html>";
+			
+			JLabel label = new JLabel(allProducts);
+			label.setFont(new Font("Ariel", Font.PLAIN, 30));
+			
+			// Show all products in list.
+			frame.add(label, BorderLayout.BEFORE_FIRST_LINE);
+		    frame.setSize(1000, 500);
+		    frame.setVisible(true);
+		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	    
 		}
 		catch(Exception err) {
 			System.out.println(err);

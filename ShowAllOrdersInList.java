@@ -28,7 +28,7 @@ public class ShowAllProductsInList {
 				allorders+=("customer name : ")+product.getString("custName")+"<br/>";
 				allorders+=("customer phone : ")+product.getString("custPhone")+"<br/>";	
 				allorders+=("date : ")+product.getInt("ordDate")+"<br/><br/>";
-				prodIDs=("products IDs : ")+product.get("productsIDs")+"<br/><br/>";
+				int[] prodIDs=("products IDs : ")+product.get("productsIDs")+"<br/><br/>";
 				for (int i = 0; i < prodIDs.length(); i++) {
 					allorders+=("--product")+(Integer.toString(j+1))+"--<br/>";
 					allorders+=("id : ")+Integer.toString(prodIDs[j])+"<br/>";

@@ -1,18 +1,19 @@
-import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import javax.swing.JScrollPane;
 
 public class ShowAllProductsInList {
-	  public static void main(String[] args) throws Exception {
-		//String structureOfJson = { products: [] };
+	  public static void main(String[] args) throws JSONException {
+		JSONObject outPutJson = new JSONObject(); 
 		try {
 			if (args.length != 1)
 			      throw new Exception("You need to pass one argument");
-			
-			//String test = "{ 'products' : [{ 'prodID' : 3, 'prodName' : 'table', 'price' : 50}, { 'prodID' : 2, 'prodName' : 'bag', 'price' : 100}]}";
+			outPutJson = new JSONObject("{ \"hadError\": \"true or false\", \"error\": \"some details of the error\"}");
+			//String test = "{ 'products' : [{ 'prodID' : 3, 'prodName' : 'table', 'price' : 50}, { 'prodID' : 2, 'prodName' : 'bag', 'price' : 100}, { 'prodID' : 3, 'prodName' : 'bag', 'price' : 100}]}";
 			JSONObject json = new JSONObject(args[0]);
 			JSONArray jsonArr = json.getJSONArray("products");
 			JFrame frame = new JFrame("Products");
@@ -30,18 +31,22 @@ public class ShowAllProductsInList {
 			allProducts+="</html>";
 			
 			JLabel label = new JLabel(allProducts);
-			label.setFont(new Font("Ariel", Font.PLAIN, 30));
+			label.setFont(new Font("Ariel", Font.PLAIN, 15));
 			
 			// Show all products in list.
-			frame.add(label, BorderLayout.BEFORE_FIRST_LINE);
-		    frame.setSize(1000, 500);
+			frame.getContentPane().add(new JScrollPane(label));
+		    frame.setSize(50, 350);
 		    frame.setVisible(true);
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	    
 		}
-		catch(Exception err) {
-			System.out.println(err);
+		catch(Throwable err) {
+			outPutJson = new JSONObject();
+			outPutJson.put("hadError", true);
+			outPutJson.put("error", err);
 		}
-		//finally:
-		//	System.out.println(structureOfJson);
+		finally
+		{
+			System.out.println(outPutJson.toString());
+		}
 }
 }

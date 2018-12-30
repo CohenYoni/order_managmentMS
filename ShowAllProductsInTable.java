@@ -11,11 +11,11 @@ import org.json.JSONObject;
 
 public class ShowAllProductsInTable {
 	public static void main(String[] args) throws Exception {
-		// String structureOfJson = { products: [] };
+		JSONObject outPutJson = new JSONObject(); 
 		try {
 			 if (args.length != 1)
 				 throw new Exception("You need to pass one argument");
-
+			outPutJson = new JSONObject("{ \"hadError\": \"true or false\", \"error\": \"some details of the error\"}");
 			//String test = "{ 'products' : [{ 'prodID' : 3, 'prodName' : 'table', 'price' : 50}, { 'prodID' : 2, 'prodName' : 'bag', 'price' : 100}]}";
 			JSONObject json = new JSONObject(args[0]);
 			JSONArray jsonArr = json.getJSONArray("products");
@@ -37,20 +37,24 @@ public class ShowAllProductsInTable {
 			// Design table head.
 			JTableHeader Theader = table.getTableHeader();
 			Theader.setBackground(Color.GRAY);
-			Theader.setFont(new Font("Ariel", Font.PLAIN, 40));
+			Theader.setFont(new Font("Ariel", Font.PLAIN, 16));
 			
 			// Design table rows.
-			table.setFont(new Font("Ariel", Font.PLAIN, 30));
-			table.setRowHeight(40);
+			table.setFont(new Font("Ariel", Font.PLAIN, 15));
+			table.setRowHeight(20);
 			
 			// Show all products in table.
 			frame.add(scrollPane, BorderLayout.CENTER);
-			frame.setSize(1000, 450);
+			frame.setSize(400, 200);
 			frame.setVisible(true);
-		} catch (Exception err) {
-			System.out.println(err);
+		catch(Throwable err) {
+			outPutJson = new JSONObject();
+			outPutJson.put("hadError", true);
+			outPutJson.put("error", err);
 		}
-		// finally:
-		// System.out.println(structureOfJson);
+		finally
+		{
+			System.out.println(outPutJson.toString());
+		}
 	}
 }

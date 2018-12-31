@@ -47,6 +47,7 @@ public class ShowAllProductsInTable {
 			frame.add(scrollPane, BorderLayout.CENTER);
 			frame.setSize(400, 200);
 			frame.setVisible(true);
+		}
 		catch(Throwable err) {
 			outPutJson = new JSONObject();
 			outPutJson.put("hadError", true);

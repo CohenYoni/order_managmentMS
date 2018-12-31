@@ -15,7 +15,7 @@ public class ShowAllProductsInTable {
 		try {
 			 if (args.length != 1)
 				 throw new Exception("You need to pass one argument");
-			outPutJson = new JSONObject("{ \"hadError\": \"true or false\", \"error\": \"some details of the error\"}");
+			outPutJson = new JSONObject("{ \"hadError\": \"false\", \"error\": \"None\"}");
 			//String test = "{ 'products' : [{ 'prodID' : 3, 'prodName' : 'table', 'price' : 50}, { 'prodID' : 2, 'prodName' : 'bag', 'price' : 100}]}";
 			JSONObject json = new JSONObject(args[0]);
 			JSONArray jsonArr = json.getJSONArray("products");

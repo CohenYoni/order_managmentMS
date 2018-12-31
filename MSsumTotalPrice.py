@@ -28,7 +28,7 @@ try:
         
 except Exception as err:
     outputJson['hadError'] = True
-    outputJson['error'] = 'ERROR: '.replace('EROR: ', '') + str(err) + '.'
+    outputJson['error'] = str(err)
 finally:
     print(json.dumps(outputJson))
 

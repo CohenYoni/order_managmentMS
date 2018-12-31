@@ -35,7 +35,7 @@ public class ShowAllProductsInList {
 			
 			// Show all products in list.
 			frame.getContentPane().add(new JScrollPane(label));
-		    frame.setSize(50, 350);
+		    frame.setSize(800, 350);
 		    frame.setVisible(true);
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	    
 		}

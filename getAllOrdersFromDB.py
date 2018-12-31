@@ -17,20 +17,22 @@ try:
     cursorDB = connectDB.cursor()
     records = cursorDB.execute('SELECT * FROM {0};'.format(ordersTableName))
     orders = records.fetchall()
-    records = cursorDB.execute('SELECT i.ordID, p.prodName FROM {0} as p, {1} as i WHERE p.prodID=i.productID;'.format(productsTableName, itemsOfOrdersTableName))
-    itemsOfOrders = records.fetchall()
     
-    outputJson['output'] = [
-                            {
-                                'ordID':ordID,
-                                'custName':custName,
-                                'custPhone':custPhone,
-                                'ordDate':ordDate,
-                                'productsNames':[
-                                    prodName for (itemOrdID, prodName) in itemsOfOrders if itemOrdID == ordID
-                                    ]
-                                } for (ordID, custName, custPhone, ordDate) in orders
-                            ]
+    for (ordID, custName, custPhone, ordDate) in orders:
+        records = cursorDB.execute('SELECT productID FROM {0} WHERE ordID={1};'.format(itemsOfOrdersTableName, ordID))
+        itemsOfOrder = []
+        for rec in records.fetchall():
+            itemsOfOrder.extend([id for id in rec])
+        outputJson['output'].append(
+                                        {
+                                            'ordID':ordID,
+                                            'custName':custName,
+                                            'custPhone':custPhone,
+                                            'ordDate':ordDate,
+                                            'productsIDs':itemsOfOrder
+                                        }
+                                    )
+                            
     connectDB.close()
 except Exception as err:
     outputJson['hadError'] = True

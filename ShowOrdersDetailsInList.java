@@ -14,7 +14,6 @@ public class ShowOrdersDetailsInList {
 			if (args.length != 1)
 			      throw new Exception("You need to pass one argument");
 			outPutJson = new JSONObject("{ \"hadError\": \"true or false\", \"error\": \"some details of the error\"}");
-			//String test = "{ 'orders' : [{ 'ordID' : 1234, 'custName' : 'May', 'custPhone' : '050…', 'ordDate' :'24/8/2018','productsIDs': ['rtg5rtg', '5g4', '463']}]}";
 			JSONObject json = new JSONObject(args[0]);
 
 			JSONArray jsonArr = json.getJSONArray("orders");

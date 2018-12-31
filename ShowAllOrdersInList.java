@@ -6,14 +6,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import javax.swing.JScrollPane;
 
-public class ShowAllProductsInList {
+public class ShowAllOrdersInList {
 	  public static void main(String[] args) throws JSONException {
 		JSONObject outPutJson = new JSONObject(); 
 		try {
 			if (args.length != 1)
 			      throw new Exception("You need to pass one argument");
 			outPutJson = new JSONObject("{ \"hadError\": \"true or false\", \"error\": \"some details of the error\"}");
-			//String test = "{ 'products' : [{ 'prodID' : 3, 'prodName' : 'table', 'price' : 50}, { 'prodID' : 2, 'prodName' : 'bag', 'price' : 100}, { 'prodID' : 3, 'prodName' : 'bag', 'price' : 100}]}";
+			//String test = "{ 'orders' : [{ 'ordID' : 1234, 'custName' : 'May', 'custPhone' : '050…', 'ordDate' :'24/8/2018','productsIDs': [1, 2, 3]}]}";
 			JSONObject json = new JSONObject(args[0]);
 			JSONArray jsonArr = json.getJSONArray("orders");
 			JFrame frame = new JFrame("orders");
@@ -22,18 +22,18 @@ public class ShowAllProductsInList {
 			
 			// Insert orders into string.
 			for (int i = 0; i < jsonArr.length(); i++) {
-				JSONObject product = jsonArr.getJSONObject(i);
+				JSONObject order = jsonArr.getJSONObject(i);
 				allorders+=("--order")+(Integer.toString(i+1))+"--<br/>";
-				allorders+=("order id : ")+product.getInt("ordID")+"<br/>";
-				allorders+=("customer name : ")+product.getString("custName")+"<br/>";
-				allorders+=("customer phone : ")+product.getString("custPhone")+"<br/>";	
-				allorders+=("date : ")+product.getInt("ordDate")+"<br/><br/>";
-				int[] prodIDs=("products IDs : ")+product.get("productsIDs")+"<br/><br/>";
-				for (int i = 0; i < prodIDs.length(); i++) {
-					allorders+=("--product")+(Integer.toString(j+1))+"--<br/>";
-					allorders+=("id : ")+Integer.toString(prodIDs[j])+"<br/>";
+				allorders+=("order id : ")+order.getInt("ordID")+"<br/>";
+				allorders+=("customer name : ")+order.getString("custName")+"<br/>";
+				allorders+=("customer phone : ")+order.getString("custPhone")+"<br/>";	
+				allorders+=("date : ")+order.getInt("ordDate")+"<br/><br/>";
+				allorders+=("products IDs : ")+order.get("productsIDs")+"<br/><br/>";
+				//for (int i = 0; i < prodIDs.length(); i++) {
+					//allorders+=("--product")+(Integer.toString(j+1))+"--<br/>";
+					//allorders+=("id : ")+Integer.toString(prodIDs[j])+"<br/>";
 
-				}
+				//}
 				}
 			allorders+="</html>";
 			

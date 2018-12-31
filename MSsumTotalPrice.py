@@ -24,7 +24,7 @@ try:
         JsonFromGetPrice=outputFromGetPrice['output']
         price=JsonFromGetPrice["price"]
         totalPrice = totalPrice + float(price)
-        outputJson['output'] = {'totalPrice':totalPrice}
+        outputJson['output'] = totalPrice
         
 except Exception as err:
     outputJson['hadError'] = True

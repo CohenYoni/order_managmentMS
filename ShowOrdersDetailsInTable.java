@@ -16,7 +16,7 @@ public class ShowOrdersDetailsInTable {
 		try {
 			 if (args.length != 1)
 				 throw new Exception("You need to pass one argument");
-			outPutJson = new JSONObject("{ \"hadError\": \"false\", \"error\": \"None\"}");
+			outPutJson = new JSONObject("{ \"hadError\": \"false\", \"error\": \"\"}");
 			JSONObject json = new JSONObject(args[0]);
 
 			JSONArray jsonArr = json.getJSONArray("orders");
@@ -31,14 +31,13 @@ public class ShowOrdersDetailsInTable {
 			// Insert products into the table.
 			for (int i = 0; i < jsonArr.length(); i++) {
 				JSONObject product = jsonArr.getJSONObject(i);
-				JSONArray JprodNames=product.getJSONArray("productsIDs");
+				JSONArray JprodNames=product.getJSONArray("productsNames");
 			
 				for (int j = 0; j < JprodNames.length(); j++) {
 					prods+=JprodNames.getString(j);
 					if(j+1<JprodNames.length())
 						prods+=", ";
-				}	
-				System.out.println(prods);
+				}
 				Object productRecord[] = { product.getInt("ordID"), product.getString("custName"),
 						product.getString("custPhone"),product.getString("ordDate"),prods};				
 				dataForTable.addRow(productRecord);

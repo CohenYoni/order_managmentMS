@@ -11,7 +11,7 @@ try:
     
     inputJson = json.loads(sys.argv[1].replace('\'', '"').replace('\\', '\\\\'))
     orderJson = inputJson['order']
-    detailsJson['DBlocation']=(inputJson['DBlocation'])
+    detailsJson['DBlocation']=inputJson['DBlocation']
     productsIDs=orderJson['productsIDs']
     
     for p in productsIDs:
@@ -24,7 +24,7 @@ try:
         JsonFromGetPrice=outputFromGetPrice['output']
         price=JsonFromGetPrice["price"]
         totalPrice = totalPrice + float(price)
-        outputJson['output'] = totalPrice
+    outputJson['output'] = totalPrice
         
 except Exception as err:
     outputJson['hadError'] = True

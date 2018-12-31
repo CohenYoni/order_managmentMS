@@ -13,7 +13,7 @@ public class ShowOrdersDetailsInList {
 		try {
 			if (args.length != 1)
 			      throw new Exception("You need to pass one argument");
-			outPutJson = new JSONObject("{ \"hadError\": \"true or false\", \"error\": \"some details of the error\"}");
+			outPutJson = new JSONObject("{ \"hadError\": false, \"error\": \"\"}");
 			JSONObject json = new JSONObject(args[0]);
 
 			JSONArray jsonArr = json.getJSONArray("orders");
@@ -29,7 +29,7 @@ public class ShowOrdersDetailsInList {
 				allorders+=("customer name : ")+order.getString("custName")+"<br/>";
 				allorders+=("customer phone : ")+order.getString("custPhone")+"<br/>";	
 				allorders+=("date : ")+order.getString("ordDate")+"<br/>";
-				JSONArray JprodNames=order.getJSONArray("productsIDs");
+				JSONArray JprodNames=order.getJSONArray("productsNames");
 				allorders+=("products : ");
 				
 				for (int j = 0; j < JprodNames.length(); j++) {
@@ -37,7 +37,7 @@ public class ShowOrdersDetailsInList {
 					if(j+1<JprodNames.length())
 						allorders+=", ";
 				}
-				
+				allorders+="<br/><br/>";
 			}
 			
 			allorders+="</html>";
@@ -47,7 +47,7 @@ public class ShowOrdersDetailsInList {
 			
 			// Show all orders in list.
 			frame.getContentPane().add(new JScrollPane(label));
-		    frame.setSize(50, 350);
+		    frame.setSize(700, 350);
 		    frame.setVisible(true);
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		    		   

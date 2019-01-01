@@ -52,8 +52,10 @@ class MainPane():
                 if prodID != '' and prodID.isnumeric() and int(prodID) in allProductsIDs and int(prodID) not in productIDs:
                     productIDs.append(int(prodID))
                     prodEntry.delete(0, tk.END)
-                elif int(prodID) in productIDs:
-                    showErrorDetails('You already inserted the product!')
+                elif prodID.isnumeric() and int(prodID) in productIDs:
+                    showErrorDetails('You already insert the product!')
+                elif prodID.isnumeric() and int(prodID) not in allProductsIDs:
+                    showErrorDetails('Product does not exists!')
                 else:
                     showErrorDetails('Wrong product ID!')
                     
@@ -89,9 +91,9 @@ class MainPane():
                     headerLbl = tk.Label(createOrderWindow, text="The order saved successfully!")
                     headerLbl.config(font = MainPane.defaultFont)
                     headerLbl.grid(row = 0)
-                    priceLbl = tk.Label(createOrderWindow, text="The total price of the order is {0}".format(totalPriceJson['output']))
+                    priceLbl = tk.Label(createOrderWindow, text="The total price of the order is {0}$".format(totalPriceJson['output']))
                     priceLbl.config(font = MainPane.defaultFont)
-                    headerLbl.grid(row = 1)
+                    priceLbl.grid(row = 1)
                     order.pop('productsIDs', None)
                     order['productsNames'] = productsNames
                     subprocess.Popen(['java', '-cp', 'java-json.jar;', 'ShowOrdersDetailsInList', json.dumps({'orders': [order,]})], shell=True)

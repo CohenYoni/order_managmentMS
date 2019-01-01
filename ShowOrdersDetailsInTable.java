@@ -27,20 +27,20 @@ public class ShowOrdersDetailsInTable {
 			String[] columnNames = { "Orders ID", "Customer Name", "Customer Phone","Date", "products" };
 			dataForTable = new DefaultTableModel(columnNames, 0);
 			table.setModel(dataForTable);
-			String prods="";
 			// Insert products into the table.
 			for (int i = 0; i < jsonArr.length(); i++) {
-				JSONObject product = jsonArr.getJSONObject(i);
-				JSONArray JprodNames=product.getJSONArray("productsNames");
+				String prods="";
+				JSONObject order = jsonArr.getJSONObject(i);
+				JSONArray JprodNames=order.getJSONArray("productsNames");
 			
 				for (int j = 0; j < JprodNames.length(); j++) {
 					prods+=JprodNames.getString(j);
 					if(j+1<JprodNames.length())
 						prods+=", ";
 				}
-				Object productRecord[] = { product.getInt("ordID"), product.getString("custName"),
-						product.getString("custPhone"),product.getString("ordDate"),prods};				
-				dataForTable.addRow(productRecord);
+				Object orderRecord[] = { order.getInt("ordID"), order.getString("custName"),
+						order.getString("custPhone"),order.getString("ordDate"),prods};				
+				dataForTable.addRow(orderRecord);
 			}
 			// Design table head.
 			JTableHeader Theader = table.getTableHeader();

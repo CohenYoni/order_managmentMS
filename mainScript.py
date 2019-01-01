@@ -43,9 +43,11 @@ class MainPane():
         def addProducts():
             def addProductToOrder():
                 prodID = prodEntry.get()
-                if prodID != '' and prodID.isnumeric() and int(prodID) in allProductsIDs:
+                if prodID != '' and prodID.isnumeric() and int(prodID) in allProductsIDs and int(prodID) not in productIDs:
                     productIDs.append(int(prodID))
                     prodEntry.delete(0, tk.END)
+                elif int(prodID) in productIDs:
+                    showErrorDetails('you already inserted the product!')
                 else:
                     showErrorDetails('Wrong product ID!')
                     
@@ -74,7 +76,6 @@ class MainPane():
                     totalPriceJson = json.loads(subprocess.check_output(['python', 'MSsumTotalPrice.py', json.dumps({'DBlocation': pathToDB, 'order': order})], shell=True))
                     if totalPriceJson['hadError']:
                         showErrorDetails(totalPriceJson['error'])
-                    print(totalPriceJson)
                     prodLbl.destroy()
                     prodEntry.destroy()
                     addProdBtn.destroy()
@@ -173,6 +174,7 @@ class MainPane():
 try:
     main = MainPane()
     main.start()
+    exit(0) #after mainloop finished
 except Exception as err1:
     try:
         showErrorDetails(err1)

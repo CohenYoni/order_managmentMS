@@ -18,19 +18,25 @@ tk.Tk.report_callback_exception = custom_report_callback_exception
 class MainPane():
     #static variables
     btnWidth = 40
+    defaultFont = ("Courier", 15)
     
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Orders Management')
         headerLbl = tk.Label(self.root, text="Welcome to Orders Management app",fg="blue")
+        headerLbl.config(font = MainPane.defaultFont)
         headerLbl.grid(row=0)
         createOrderBtn = tk.Button(self.root, text='Create New Order', width=MainPane.btnWidth, command=self.createNewOrder)
+        createOrderBtn.config(font = MainPane.defaultFont)
         createOrderBtn.grid(row=1)
         showOrdersBtn = tk.Button(self.root, text='Show All Orders', width=MainPane.btnWidth, command=self.showAllOrders)
+        showOrdersBtn.config(font = MainPane.defaultFont)
         showOrdersBtn.grid(row=2)
         showIncomsBtn = tk.Button(self.root, text='Show Incomes From Orders', width=MainPane.btnWidth, command=self.showIncomesFromOrders)
+        showIncomsBtn.config(font = MainPane.defaultFont)
         showIncomsBtn.grid(row=3)
         showInventoryBtn = tk.Button(self.root, text='Show Inventory', width=MainPane.btnWidth, command=self.showInventory)
+        showInventoryBtn.config(font = MainPane.defaultFont)
         showInventoryBtn.grid(row=4)
 
     def start(self):
@@ -47,7 +53,7 @@ class MainPane():
                     productIDs.append(int(prodID))
                     prodEntry.delete(0, tk.END)
                 elif int(prodID) in productIDs:
-                    showErrorDetails('you already inserted the product!')
+                    showErrorDetails('You already inserted the product!')
                 else:
                     showErrorDetails('Wrong product ID!')
                     
@@ -80,8 +86,12 @@ class MainPane():
                     prodEntry.destroy()
                     addProdBtn.destroy()
                     finishBtn.destroy()
-                    tk.Label(createOrderWindow, text="The order saved successfully!").grid(row = 0)
-                    tk.Label(createOrderWindow, text="The total price of the order is {0}".format(totalPriceJson['output'])).grid(row = 1)
+                    headerLbl = tk.Label(createOrderWindow, text="The order saved successfully!")
+                    headerLbl.config(font = MainPane.defaultFont)
+                    headerLbl.grid(row = 0)
+                    priceLbl = tk.Label(createOrderWindow, text="The total price of the order is {0}".format(totalPriceJson['output']))
+                    priceLbl.config(font = MainPane.defaultFont)
+                    headerLbl.grid(row = 1)
                     order.pop('productsIDs', None)
                     order['productsNames'] = productsNames
                     subprocess.Popen(['java', '-cp', 'java-json.jar;', 'ShowOrdersDetailsInList', json.dumps({'orders': [order,]})], shell=True)
@@ -91,41 +101,59 @@ class MainPane():
 
             name = nameEntry.get()
             phone = phoneEntry.get()
-            if name != '' and phone != '':
+            if 0 < len(name) <= 20 and 0 < len(phone) <= 10 and phone.isnumeric():
                 nameLbl.destroy()
                 nameEntry.destroy()
                 phoneLbl.destroy()
                 phoneEntry.destroy()
                 addOrderBtn.destroy()
                 prodLbl = tk.Label(createOrderWindow, text="Enter the product ID here: ")
+                prodLbl.config(font = MainPane.defaultFont)
                 prodLbl.grid(row = 0)
                 prodEntry = tk.Entry(createOrderWindow, width = 20)
                 prodEntry.grid(row=0, column=1, columnspan=50)
                 productIDs = []
                 addProdBtn = tk.Button(createOrderWindow, text='add product', command=addProductToOrder)
+                addProdBtn.config(font = MainPane.defaultFont)
                 addProdBtn.grid(row = 1)
                 finishBtn = tk.Button(createOrderWindow, text='finish', command=finish)
+                finishBtn.config(font = MainPane.defaultFont)
                 finishBtn.grid(row = 1, column = 1)
                 allProductsJson = json.loads(subprocess.check_output(['python', 'getAllProductsFromDB.py', pathToDB], shell=True))
                 if allProductsJson['hadError']:
                     showErrorDetails(allProductsJson['error'])
                 allProductsIDs = tuple(map(lambda x: x['prodID'], allProductsJson['output']))
                 subprocess.Popen(['java', '-cp', 'java-json.jar;', 'ShowAllProductsInTable', json.dumps({'products': allProductsJson['output']})],shell=True)
+            elif name == '':
+                showErrorDetails('Please enter a name!')
+            elif len(name) > 20:
+                showErrorDetails('20 character maximum in the name!')
+            elif phone == '':
+                showErrorDetails('Please enter a phone number!')
+            elif len(phone) > 10:
+                showErrorDetails('10 digits maximum in the phone!')
+            elif not phone.isnumeric():
+                showErrorDetails('The phone number must include only digits!')
             else:
-                showErrorDetails('Please enter a name and phone!')
+                showErrorDetails('Please enter correct input!')
             
                 
         createOrderWindow = tk.Tk()
         createOrderWindow.title('Create Order')
         nameLbl = tk.Label(createOrderWindow, text="Full Name: ")
+        nameLbl.config(font = MainPane.defaultFont)
         nameLbl.grid(row = 1)
-        nameEntry = tk.Entry(createOrderWindow, width = 50)
-        nameEntry.grid(row=1, column=1, columnspan=50)
+        nameEntry = tk.Entry(createOrderWindow, width = 25)
+        nameEntry.config(font = MainPane.defaultFont)
+        nameEntry.grid(row=1, column=1)
         phoneLbl = tk.Label(createOrderWindow, text="Phone number: ")
+        phoneLbl.config(font = MainPane.defaultFont)
         phoneLbl.grid(row = 2)
-        phoneEntry = tk.Entry(createOrderWindow, width = 50)
-        phoneEntry.grid(row=2, column=2, columnspan=50)
+        phoneEntry = tk.Entry(createOrderWindow, width = 25)
+        phoneEntry.config(font = MainPane.defaultFont)
+        phoneEntry.grid(row=2, column=1)
         addOrderBtn = tk.Button(createOrderWindow, text='create', command=addProducts)
+        addOrderBtn.config(font = MainPane.defaultFont)
         addOrderBtn.grid(row=3)
 
     def showAllOrders(self):
@@ -157,10 +185,10 @@ class MainPane():
         showIncomeWindow = tk.Tk()
         showIncomeWindow.title('Incomes')
         headerLbl = tk.Label(showIncomeWindow, text="The incomes from all the orders are", fg="green")
-        headerLbl.config(font=("Courier", 15))
+        headerLbl.config(font=MainPane.defaultFont)
         headerLbl.grid(row=0)
         incomeLbl = tk.Label(showIncomeWindow, text=str(totalIncomes) + '$')
-        incomeLbl.config(font=("Courier", 15))
+        incomeLbl.config(font=MainPane.defaultFont)
         incomeLbl.grid(row=1)
 
     def showInventory(self):

@@ -14,7 +14,7 @@ try:
     connectDB = sqlite3.connect(DBlocation)
     cursorDB = connectDB.cursor()
     records = cursorDB.execute('SELECT * FROM {0};'.format(tableName))
-    outputJson['output'] = [{'prodID':prodID, 'prodName':prodName, 'price':output} for (prodName, output, prodID) in records.fetchall()]
+    outputJson['output'] = [{'prodID':prodID, 'prodName':prodName, 'price':price} for (prodName, price, prodID) in records.fetchall()]
     connectDB.close()
 except Exception as err:
     outputJson['hadError'] = True
